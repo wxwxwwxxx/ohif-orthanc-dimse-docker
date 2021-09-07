@@ -17,33 +17,33 @@ services:
       - ${NGINX_SSL_KEY:-./ssl/ssl_dev.key}:/etc/ssl/SSL.key:ro   # SSL development key
 
   viewer:
-    image: ohif/viewer:v1.x
+    image: ohif/viewer:latest
     container_name: viewer
     depends_on:
-      - mongo
+#      - mongo
       - orthanc
     restart: always
     networks:
       - frontend
       - backend
 #    ports:
-#      - 3000:3000
-    links:
-      - mongo
-    environment:
-      - MONGO_URL=${MONGO_URL:-mongodb://mongo:27017/ohif}
+#      - 3000:80
+#    links:
+#      - mongo
+#    environment:
+#      - MONGO_URL=${MONGO_URL:-mongodb://mongo:27017/ohif}
     volumes:
-      - ${VIEWER_CONFIG:-./config/viewer.json}:/app/app.json:ro
+      - ${VIEWER_CONFIG:-./config/app-config.js}:/usr/share/nginx/html/app-config.js:ro
 
-  mongo:
-    image: mongo:4.0.14
-    container_name: mongo
-    networks:
-      - backend
+#   mongo:
+#    image: mongo:4.0.14
+#    container_name: mongo
+#    networks:
+#      - backend
 #    ports:
 #      - ${MONGO_PORT:-27017}:27017
-    volumes:
-      - ${MONGO_DATA:-./mongo_data}:/data/db
+#    volumes:
+#      - ${MONGO_DATA:-./mongo_data}:/data/db
 
   orthanc:
     image: jodogne/orthanc-plugins:1.5.8
@@ -54,9 +54,9 @@ services:
     networks:
       - frontend
       - backend
-#    ports:
-#      - ${ORTHANC_DICOM_PORT:-4242}:4242
-#      - ${ORTHANC_HTTP_PORT:-8042}:8042
+    ports:
+      - 4242:4242
+      - 8042:8042
     volumes:
       - sampledata:/sampledata
       - ${ORTHANC_DB:-./orthanc_db}:/var/lib/orthanc/db

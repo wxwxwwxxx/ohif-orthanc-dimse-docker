@@ -160,7 +160,7 @@
   "SslCertificate" : "certificate.pem",
 
   // Whether or not the password protection is enabled
-  "AuthenticationEnabled" : true,
+  "AuthenticationEnabled" : false,
 
   // The list of the registered users. Because Orthanc uses HTTP
   // Basic Authentication, the passwords are stored as plain text.
@@ -184,8 +184,9 @@
      * command line "storescp 2000".
      **/
     // "sample" : [ "STORESCP", "127.0.0.1", 2000 ]
-    "ohif" : [ "OHIFDCM", "viewer", 3000 ]
-
+    "ohif" : [ "OHIFDCM", "viewer", 3000 ],
+    "clara" : ["FEMUR", "172.17.146.111", 104],
+    "slicer": ["CTKSTORE", "172.17.146.34", 11112]
     /**
      * A fourth parameter is available to enable patches for
      * specific PACS manufacturers. The allowed values are currently:
